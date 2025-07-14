@@ -1,11 +1,11 @@
 # Terraform
 .terraform/
-.terraform.lock.hcl
-*.tfstate
-*.tfstate.*
-*.tfvars
 tfplan
 *.tfplan
+*.tfvars
+*.tfstate.*
+*.tfstate
+.terraform.lock.hcl
 
 # AWS SSH keys
 *.pem

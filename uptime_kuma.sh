@@ -9,4 +9,4 @@ systemctl start docker
 systemctl enable docker
 
 # Run Uptime Kuma
-docker run -d --restart=always -p 3001:3001 --name uptime-kuma brekhoffd/uptime-kuma
+docker run -d --restart=on-failure -p 3001:3001 --name uptime-kuma brekhoffd/uptime-kuma

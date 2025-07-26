@@ -11,7 +11,6 @@ VM_NAME=ubuntu
 VM_MEM=1024
 VM_CORES=1
 VM_STORAGE=raid-zfs
-#VM_DISK_SIZE=32G
 
 # Завантажуємо Cloud Image
 wget https://cloud-images.ubuntu.com/noble/current/${CLOUD_IMAGE}
@@ -48,16 +47,16 @@ if [ ! -e "$ZVOL_PATH" ]; then
 fi
 
 # Призначаємо диск до SCSI контролера
-qm set ${VM_ID} --scsi0 ${VM_STORAGE}:vm-${VM_ID}-disk-0
+qm set ${VM_ID} --virtio0 ${VM_STORAGE}:vm-${VM_ID}-disk-0
 
 # Підключаємо cloud-init диск
 qm set ${VM_ID} --ide2 ${VM_STORAGE}:cloudinit
 
-# Встановлюємо пріоритет завантаження
-qm set ${VM_ID} --boot c --bootdisk scsi0
+# Встановлюємо тип операційної системи
+qm set ${VM_ID} --ostype l26
 
-# (Опціонально) Редагуємо розмір диску
-#qm resize ${VM_ID} scsi0 ${VM_DISK_SIZE}
+# Встановлюємо пріоритет завантаження
+qm set ${VM_ID} --boot c --bootdisk virtio0
 
 # Конвертуємо ВМ у шаблон
 qm template ${VM_ID}

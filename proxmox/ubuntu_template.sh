@@ -8,10 +8,10 @@ CLOUD_IMAGE=noble-server-cloudimg-amd64.img
 # Налаштовуємо віртуальну машину
 VM_ID=1000
 VM_NAME=ubuntu
-VM_MEM=4096
-VM_CORES=2
+VM_MEM=1024
+VM_CORES=1
 VM_STORAGE=raid-zfs
-VM_DISK_SIZE=32G
+#VM_DISK_SIZE=32G
 
 # Завантажуємо Cloud Image
 wget https://cloud-images.ubuntu.com/noble/current/${CLOUD_IMAGE}
@@ -31,6 +31,22 @@ qm create ${VM_ID} \
 # Імпортуємо диск
 qm importdisk ${VM_ID} ${CLOUD_IMAGE} ${VM_STORAGE}
 
+# Очікуємо створення ZVOL-пристрою після імпорту диска
+ZVOL_PATH="/dev/zvol/${VM_STORAGE}/vm-${VM_ID}-disk-0"
+echo "Очікуємо створення ZVOL-пристрою: ${ZVOL_PATH}..."
+for i in {1..20}; do
+  if [ -e "$ZVOL_PATH" ]; then
+    echo "ZVOL створено!"
+    break
+  fi
+  sleep 1
+done
+
+if [ ! -e "$ZVOL_PATH" ]; then
+  echo "Помилка: ZVOL не створено. Перевір Proxmox та ZFS."
+  exit 1
+fi
+
 # Призначаємо диск до SCSI контролера
 qm set ${VM_ID} --scsi0 ${VM_STORAGE}:vm-${VM_ID}-disk-0
 
@@ -41,7 +57,7 @@ qm set ${VM_ID} --ide2 ${VM_STORAGE}:cloudinit
 qm set ${VM_ID} --boot c --bootdisk scsi0
 
 # (Опціонально) Редагуємо розмір диску
-qm resize ${VM_ID} scsi0 ${VM_DISK_SIZE}
+#qm resize ${VM_ID} scsi0 ${VM_DISK_SIZE}
 
 # Конвертуємо ВМ у шаблон
 qm template ${VM_ID}

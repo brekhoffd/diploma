@@ -1,3 +1,4 @@
+# Provider
 terraform {
   required_providers {
     proxmox = {
@@ -14,13 +15,14 @@ provider "proxmox" {
   pm_tls_insecure     = var.proxmox_tls_insecure
 }
 
+# VM General
 resource "proxmox_vm_qemu" "vm_cloud_init" {
   name        = var.vm_name
   target_node = var.target_node
   clone       = var.clone_template
   onboot      = var.vm_onboot
 
-  # CPU
+  # CPU & Memory
   cpu {
     cores   = var.vm_cores
     sockets = var.vm_sockets
@@ -30,7 +32,7 @@ resource "proxmox_vm_qemu" "vm_cloud_init" {
   memory  = var.vm_memory
   balloon = var.vm_balloon
 
-  # Boot order
+  # Boot Order
   boot = var.vm_boot_order
 
   # Disks
@@ -47,7 +49,7 @@ resource "proxmox_vm_qemu" "vm_cloud_init" {
     storage = var.disk_storage
   }
 
-  # Serial port
+  # Serial Port
   serial {
     id   = var.serial_port_id
     type = var.serial_port_type
@@ -67,5 +69,5 @@ resource "proxmox_vm_qemu" "vm_cloud_init" {
   ciupgrade   = var.vm_upgrade
   sshkeys     = var.ssh_public_key
   ipconfig0   = "ip=${var.vm_ip}/24,gw=${var.vm_gateway}"
-  agent       = var.agent_act
+  agent       = var.agent_activation
 }

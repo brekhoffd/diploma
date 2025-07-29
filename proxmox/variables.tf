@@ -1,4 +1,4 @@
-# --- Provider Authentication ---
+# Provider
 variable "proxmox_api_url" {
   description = "Proxmox API URL"
   type        = string
@@ -23,7 +23,7 @@ variable "proxmox_tls_insecure" {
   default     = true
 }
 
-# --- VM General ---
+# VM General
 variable "vm_name" {
   description = "Name Of The Virtual Machine"
   type        = string
@@ -48,7 +48,7 @@ variable "vm_onboot" {
   default     = true
 }
 
-# --- CPU & Memory ---
+# CPU & Memory
 variable "vm_cores" {
   description = "Number Of CPU Cores"
   type        = number
@@ -79,14 +79,14 @@ variable "vm_balloon" {
   default     = 0
 }
 
-# --- Boot ---
+# Boot Order
 variable "vm_boot_order" {
   description = "Boot Device Order"
   type        = string
   default     = "order=virtio0"
 }
 
-# --- Disks ---
+# Disks
 variable "disk_slot" {
   description = "Disk Slot"
   type        = string
@@ -123,7 +123,7 @@ variable "cloudinit_type" {
   default     = "cloudinit"
 }
 
-# --- Serial Port ---
+# Serial Port
 variable "serial_port_id" {
   description = "Serial Port ID"
   type        = number
@@ -136,7 +136,7 @@ variable "serial_port_type" {
   default     = "socket"
 }
 
-# --- Network ---
+# Network
 variable "network_id" {
   description = "Network Interface ID"
   type        = number
@@ -155,7 +155,7 @@ variable "network_bridge" {
   default     = "vmbr0"
 }
 
-# --- Cloud-Init ---
+# Cloud-Init
 variable "vm_os_type" {
   description = "Default OS Type"
   type        = string
@@ -198,7 +198,7 @@ variable "vm_gateway" {
   default     = "192.168.88.254"
 }
 
-variable "agent_act" {
+variable "agent_activation" {
   description = "Qemu Guest Agent Activation"
   type        = number
   default     = 1

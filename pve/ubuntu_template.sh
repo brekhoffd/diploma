@@ -3,14 +3,14 @@
 echo "Створюємо шаблон віртуальної машини..."
 
 # Cloud Image
-CLOUD_IMAGE=noble-server-cloudimg-amd64.img
+CLOUD_IMAGE="noble-server-cloudimg-amd64.img"
 
 # Налаштовуємо віртуальну машину
-VM_ID=1000
-VM_NAME=ubuntu
-VM_MEM=1024
-VM_CORES=1
-VM_STORAGE=raid-zfs
+VM_ID="1000"
+VM_NAME="ubuntu"
+VM_MEM="1024"
+VM_CORES="1"
+VM_STORAGE="raid-zfs"
 
 # Завантажуємо Cloud-Image
 echo "Завантажуємо Cloud-Image..."

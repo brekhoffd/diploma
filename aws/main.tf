@@ -1,19 +1,16 @@
-################################################################
-
+# Provider
 provider "aws" {
   region     = var.aws_region
   access_key = var.aws_access_key
   secret_key = var.aws_secret_key
 }
 
-################################################################
-
+# Default VPC
 data "aws_vpc" "default" {
   default = true
 }
 
-################################################################
-
+# Security Group Ports
 locals {
   ingress_ports = [
     {
@@ -27,8 +24,7 @@ locals {
   ]
 }
 
-################################################################
-
+# Security Group Rules
 resource "aws_security_group" "kuma_sg" {
   name        = "uptime-kuma-sg"
   description = "Allow SSH and Uptime Kuma access"
@@ -56,8 +52,7 @@ resource "aws_security_group" "kuma_sg" {
   }
 }
 
-################################################################
-
+# Instance
 resource "aws_instance" "uptime_kuma" {
   ami                    = var.ami_id
   instance_type          = var.instance_type

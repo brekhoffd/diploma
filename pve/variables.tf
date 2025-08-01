@@ -189,7 +189,7 @@ variable "ssh_public_key" {
 variable "vm_ip" {
   description = "VM Static IP Address"
   type        = string
-  default     = "192.168.88.199"
+  default     = "192.168.88.200"
 }
 
 variable "vm_gateway" {

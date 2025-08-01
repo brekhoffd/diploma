@@ -1,23 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+# Обробка помилок
+trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 
 echo "Створюємо шаблон віртуальної машини..."
 
-# Cloud Image
+# Версія Cloud-Image
 CLOUD_IMAGE="noble-server-cloudimg-amd64.img"
 
-# Налаштовуємо віртуальну машину
+# Налаштування шаблону віртуальної машини
 VM_ID="1000"
 VM_NAME="ubuntu"
 VM_MEM="1024"
 VM_CORES="1"
 VM_STORAGE="raid-zfs"
 
-# Завантажуємо Cloud-Image
-echo "Завантажуємо Cloud-Image..."
+# Завантаження обраної версії Cloud-Image
+echo "Завантаження Cloud-Image..."
 wget https://cloud-images.ubuntu.com/noble/current/${CLOUD_IMAGE}
 
-# Створюємо віртуальну машину
-echo "Створюємо віртуальну машину..."
+# Створення віртуальної машини
+echo "Створення віртуальної машини..."
 qm create ${VM_ID} \
   --name ${VM_NAME} \
   --memory ${VM_MEM} \
@@ -29,21 +34,20 @@ qm create ${VM_ID} \
   --vga serial0 \
   --agent enabled=1
 
-# Імпортуємо диск
-echo "Імпортуємо диск..."
+# Імпорт диска
+echo "Імпорт диска..."
 qm importdisk ${VM_ID} ${CLOUD_IMAGE} ${VM_STORAGE}
 
-# Очікуємо створення ZVOL-пристрою після імпорту диска
-echo "Очікуємо створення ZVOL-пристрою після імпорту диска..."
+# Очікування створення ZVOL-пристрою після імпорту диска
+echo "Очікування створення ZVOL-пристрою після імпорту диска..."
 sleep 5
 
-# Перевіряємо наявність ZVOL-пристрою
-echo "Перевіряємо наявність ZVOL-пристрою..."
+# Перевірка наявності ZVOL-пристрою
 ZVOL_PATH="/dev/zvol/${VM_STORAGE}/vm-${VM_ID}-disk-0"
-echo "Перевіряємо наявність ZVOL-пристрою: ${ZVOL_PATH}..."
+echo "Перевірка наявності ZVOL-пристрою: ${ZVOL_PATH}..."
 for i in {1..20}; do
   if [ -e "$ZVOL_PATH" ]; then
-    echo "ZVOL знайдено!"
+    echo "ZVOL знайдено."
     break
   fi
   sleep 1
@@ -54,28 +58,28 @@ if [ ! -e "$ZVOL_PATH" ]; then
   exit 1
 fi
 
-# Призначаємо диск до SCSI контролера
-echo "Призначаємо диск до SCSI контролера..."
+# Призначення диска до SCSI контролера
+echo "Призначення диска до SCSI контролера..."
 qm set ${VM_ID} --virtio0 ${VM_STORAGE}:vm-${VM_ID}-disk-0
 
-# Підключаємо cloud-init диск
-echo "Підключаємо cloud-init диск..."
+# Підключення Cloud-Init диска
+echo "Підключення Cloud-Init диска..."
 qm set ${VM_ID} --ide2 ${VM_STORAGE}:cloudinit
 
-# Встановлюємо тип операційної системи
-echo "Встановлюємо тип операційної системи..."
+# Встановлення типу операційної системи
+echo "Встановлення типу операційної системи..."
 qm set ${VM_ID} --ostype l26
 
-# Встановлюємо пріоритет завантаження
-echo "Встановлюємо пріоритет завантаження..."
+# Встановлення пріоритету завантаження
+echo "Встановлення пріоритету завантаження..."
 qm set ${VM_ID} --boot c --bootdisk virtio0
 
-# Конвертуємо ВМ у шаблон
-echo "Конвертуємо ВМ у шаблон..."
+# Конвертація віртуальної машини у шаблон
+echo "Конвертація віртуальної машини у шаблон..."
 qm template ${VM_ID}
 
-# Видаляємо раніше завантажений Cloud-Image
-echo "Видаляємо раніше завантажений Cloud-Image..."
+# Видалення раніше завантаженого Cloud-Image
+echo "Видалення раніше завантаженого Cloud-Image..."
 rm ./${CLOUD_IMAGE}
 
-echo "Шаблон створений та готовий до клонування!"
+echo "Готово! Шаблон створений та готовий до клонування."

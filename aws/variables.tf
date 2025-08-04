@@ -30,7 +30,6 @@ variable "allowed_kuma_cidr" {
   default     = "109.87.215.217/32"
 }
 
-
 # Instance
 variable "ami_id" {
   description = "AMI ID to use for the EC2 instance"

@@ -40,12 +40,12 @@ qm importdisk ${VM_ID} ${CLOUD_IMAGE} ${VM_STORAGE}
 
 # Очікування створення ZVOL-пристрою після імпорту диска
 echo "Очікування створення ZVOL-пристрою після імпорту диска..."
-sleep 5
+sleep 10
 
 # Перевірка наявності ZVOL-пристрою
 ZVOL_PATH="/dev/zvol/${VM_STORAGE}/vm-${VM_ID}-disk-0"
 echo "Перевірка наявності ZVOL-пристрою: ${ZVOL_PATH}..."
-for i in {1..20}; do
+for i in {1..10}; do
   if [ -e "$ZVOL_PATH" ]; then
     echo "ZVOL знайдено."
     break

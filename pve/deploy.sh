@@ -14,7 +14,7 @@ REMOTE_SCRIPT_PATH="/tmp/ubuntu_template.sh"
 LOCAL_SCRIPT="./ubuntu_template.sh"
 
 # Копіювання скрипта на сервер
-echo " Копіювання скрипта на сервер..."
+echo "Копіювання скрипта на сервер..."
 scp "$LOCAL_SCRIPT" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_SCRIPT_PATH"
 
 # Підключення та запуск скрипта

@@ -21,6 +21,8 @@ scp "$LOCAL_SCRIPT" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_SCRIPT_PATH"
 echo "Підключення та запуск скрипта..."
 ssh "$REMOTE_USER@$REMOTE_HOST" "chmod +x $REMOTE_SCRIPT_PATH && $REMOTE_SCRIPT_PATH && rm -f $REMOTE_SCRIPT_PATH && exit"
 
+# Очікування завершення роботи скрипта
+echo "Очікування завершення роботи скрипта..."
 sleep 10
 
 # Перевірка наявності Terraform

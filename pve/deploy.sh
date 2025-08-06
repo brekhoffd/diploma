@@ -49,19 +49,23 @@ echo "Ініціалізація Terraform..."
 terraform init -upgrade
 
 # Створення плану
-echo "Створення плану..."
-terraform plan -out=tfplan
+#echo "Створення плану..."
+#terraform plan -out=tfplan
 
 # Підтвердження застосування плану
-echo "Підтвердження застосування плану..."
-read -p "Застосувати цей план? (yes/no): " confirm
-if [[ "$confirm" != "yes" ]]; then
-  echo "Скасовано користувачем."
-  exit 0
-fi
+#echo "Підтвердження застосування плану..."
+#read -p "Застосувати цей план? (yes/no): " confirm
+#if [[ "$confirm" != "yes" ]]; then
+#  echo "Скасовано користувачем."
+#  exit 0
+#fi
 
 # Застосування плану
-echo "Застосування плану..."
-terraform apply tfplan
+#echo "Застосування плану..."
+#terraform apply tfplan
+
+# Створення інфраструктури
+echo "Створення інфраструктури..."
+terraform apply --auto-approve
 
 echo "Готово! Інфраструктура створена."

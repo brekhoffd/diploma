@@ -15,11 +15,11 @@ LOCAL_SCRIPT="./ubuntu_template.sh"
 
 # Копіювання скрипта на сервер
 echo "Копіювання скрипта на сервер..."
-scp "$LOCAL_SCRIPT" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_SCRIPT_PATH"
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_SCRIPT_PATH"
 
 # Підключення та запуск скрипта
 echo "Підключення та запуск скрипта..."
-ssh "$REMOTE_USER@$REMOTE_HOST" "chmod +x $REMOTE_SCRIPT_PATH && $REMOTE_SCRIPT_PATH && rm -f $REMOTE_SCRIPT_PATH && exit"
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER@$REMOTE_HOST" "chmod +x $REMOTE_SCRIPT_PATH && $REMOTE_SCRIPT_PATH && rm -f $REMOTE_SCRIPT_PATH && exit"
 
 # Очікування завершення роботи скрипта
 echo "Очікування завершення роботи скрипта..."

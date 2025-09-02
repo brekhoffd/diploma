@@ -9,7 +9,7 @@ echo
 echo "Запуск проекту!"
 
 # Цикл для запуску deploy.sh в кожній папці проекту
-for dir in ./aws ./pve; do
+for dir in aws pve; do
   echo
   echo "Запускаю deploy.sh для $dir..."
   if [ -x "$dir/deploy.sh" ]; then

@@ -44,7 +44,7 @@ set -euo pipefail
 trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR  
 
 mkdir -p /tmp/test  
-cp /неіснуючий_файл.txt /tmp/test/
+cp /неіснуючий_файл.txt /tmp/test/  
 ```
 
 → Вивід при помилці:  

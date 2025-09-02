@@ -125,6 +125,7 @@ check_status "Створення користувача"
 
 # Перезапуск Jenkins після розблокування
 echo
+echo
 echo "Перезапуск Jenkins після розблокування..."
 sudo systemctl restart jenkins
 check_status "Перезапуск Jenkins після розблокування"
@@ -164,7 +165,7 @@ check_status "Встановлення плагінів"
 
 # Таймаут для встановлення плагінів
 echo
-echo "Встановлення плагінів..."
+echo "Очікування встановлення плагінів..."
 sleep 60  # Асинхронне встановлення — додайте більше, якщо потрібно
 
 # Перезапуск Jenkins після встановлення плагінів
@@ -197,6 +198,7 @@ curl -X POST -u "$ADMIN_USERNAME:$ADMIN_PASSWORD" $JENKINS_URL/setupWizard/confi
 check_status "Підтвердження URL"
 
 # Перезапуск Jenkins після підтвердження URL
+echo
 echo
 echo "Перезапуск Jenkins після підтвердження URL..."
 sudo systemctl restart jenkins

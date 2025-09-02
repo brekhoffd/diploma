@@ -22,7 +22,7 @@ echo
 echo "Підключення та запуск скрипта..."
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER@$REMOTE_HOST" "chmod +x $REMOTE_SCRIPT_PATH && $REMOTE_SCRIPT_PATH && rm -f $REMOTE_SCRIPT_PATH && exit"
 
-# Очікування завершення роботи скрипта
+# Таймаут для завершення роботи скрипта
 echo
 echo "Завершення роботи скрипта..."
 sleep 10

@@ -93,7 +93,7 @@ check_status "Додавання Jenkins до груп"
 echo
 echo "Налаштування прав..."
 echo
-sudo mkdir /opt/mssql
+sudo mkdir /opt/mssql 2>/dev/null || true
 sudo chmod 777 /opt/mssql
 
 # Рестарт Jenkins після налаштувань

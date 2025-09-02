@@ -12,6 +12,10 @@ REMOTE_HOST="192.168.88.1"
 LOCAL_SCRIPT="./ubuntu_template.sh"
 REMOTE_SCRIPT_PATH="/tmp/ubuntu_template.sh"
 
+# Вивід початкового повідомлення
+echo
+echo "Автоматичне створення інфраструктури та розгортання сервісів на гіпервізорі Proxmox VE!"
+
 # Копіювання скрипта на сервер
 echo
 echo "Копіювання скрипта на сервер..."

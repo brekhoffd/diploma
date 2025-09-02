@@ -4,6 +4,10 @@ set -euo pipefail
 # Обробка помилок
 trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 
+# Вивід початкового повідомлення
+echo
+echo "Запуск проекту!"
+
 # Цикл для запуску deploy.sh в кожній папці проекту
 for dir in ./aws ./pve; do
   echo

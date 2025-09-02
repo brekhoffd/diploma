@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
-IFS=$'\n\t'
 
 # Обробка помилок
 trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 
-echo "Створюємо шаблон віртуальної машини..."
-
-# Версія Cloud-Image
+# Версія Cloud-Image для шаблону
 CLOUD_IMAGE="noble-server-cloudimg-amd64.img"
 
 # Налаштування шаблону віртуальної машини
@@ -17,11 +14,17 @@ VM_MEM="1024"
 VM_CORES="1"
 VM_STORAGE="raid-zfs"
 
+# Початкове повідомлення
+echo
+echo "Створення шаблону віртуальної машини!"
+
 # Завантаження обраної версії Cloud-Image
+echo
 echo "Завантаження Cloud-Image..."
 wget https://cloud-images.ubuntu.com/noble/current/${CLOUD_IMAGE}
 
 # Створення віртуальної машини
+echo
 echo "Створення віртуальної машини..."
 qm create ${VM_ID} \
   --name ${VM_NAME} \
@@ -35,15 +38,18 @@ qm create ${VM_ID} \
   --agent enabled=1
 
 # Імпорт диска
+echo
 echo "Імпорт диска..."
 qm importdisk ${VM_ID} ${CLOUD_IMAGE} ${VM_STORAGE}
 
 # Очікування створення ZVOL-пристрою після імпорту диска
-echo "Очікування створення ZVOL-пристрою після імпорту диска..."
+echo
+echo "Створення ZVOL-пристрою після імпорту диска..."
 sleep 10
 
 # Перевірка наявності ZVOL-пристрою
 ZVOL_PATH="/dev/zvol/${VM_STORAGE}/vm-${VM_ID}-disk-0"
+echo
 echo "Перевірка наявності ZVOL-пристрою: ${ZVOL_PATH}..."
 for i in {1..10}; do
   if [ -e "$ZVOL_PATH" ]; then
@@ -54,32 +60,41 @@ for i in {1..10}; do
 done
 
 if [ ! -e "$ZVOL_PATH" ]; then
+  echo
   echo "Помилка: ZVOL не знайдено. Перевір Proxmox та ZFS."
   exit 1
 fi
 
 # Призначення диска до SCSI контролера
+echo
 echo "Призначення диска до SCSI контролера..."
 qm set ${VM_ID} --virtio0 ${VM_STORAGE}:vm-${VM_ID}-disk-0
 
 # Підключення Cloud-Init диска
+echo
 echo "Підключення Cloud-Init диска..."
 qm set ${VM_ID} --ide2 ${VM_STORAGE}:cloudinit
 
 # Встановлення типу операційної системи
+echo
 echo "Встановлення типу операційної системи..."
 qm set ${VM_ID} --ostype l26
 
 # Встановлення пріоритету завантаження
+echo
 echo "Встановлення пріоритету завантаження..."
 qm set ${VM_ID} --boot c --bootdisk virtio0
 
 # Конвертація віртуальної машини у шаблон
+echo
 echo "Конвертація віртуальної машини у шаблон..."
 qm template ${VM_ID}
 
 # Видалення раніше завантаженого Cloud-Image
+echo
 echo "Видалення раніше завантаженого Cloud-Image..."
 rm ./${CLOUD_IMAGE}
 
-echo "Готово! Шаблон створений та готовий до клонування."
+# Вивід кінцевої інформації
+echo
+echo "Створення шаблону віртуальної машини завершено!"

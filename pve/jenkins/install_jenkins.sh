@@ -207,7 +207,8 @@ echo
 echo "Запуск служб та сервісів..."
 sleep 10
 
+# Вивід кінцевої інформації
 echo
-echo "Налаштування завершено!"
+echo "Встановлення та налаштування Jenkins завершено!"
 echo "Jenkins доступний на $JENKINS_URL"
 echo "Дані для входу: $ADMIN_USERNAME / $ADMIN_PASSWORD"

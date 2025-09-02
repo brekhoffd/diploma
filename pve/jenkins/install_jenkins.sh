@@ -27,6 +27,10 @@ check_status() {
     fi
 }
 
+# Вивід початкового повідомлення
+echo
+echo "Автоматичне встановлення та налаштування Jenkins та Docker!"
+
 # Встановлення Java та Jenkins
 echo
 echo "Встановлення Java..."
@@ -211,6 +215,6 @@ sleep 10
 
 # Вивід кінцевої інформації
 echo
-echo "Встановлення та налаштування Jenkins завершено!"
+echo "Встановлення та налаштування Jenkins та Docker завершено!"
 echo "Jenkins доступний на $JENKINS_URL"
 echo "Дані для входу: $ADMIN_USERNAME / $ADMIN_PASSWORD"

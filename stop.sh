@@ -10,7 +10,7 @@ echo "ВИДАЛЕННЯ ДИПЛОМНОГО ПРОЕКТУ!"
 # Цикл по папках з Terraform
 for dir in aws pve; do
   echo
-  echo "Видалення у $dir..."
+  echo "Видалення на $dir..."
   if [ -d "$dir" ]; then
     (cd "$dir" && terraform destroy --auto-approve)
   else

@@ -8,7 +8,7 @@ trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 echo
 echo "ВИДАЛЕННЯ ДИПЛОМНОГО ПРОЕКТУ!"
 
-# Цикл по папках з Terraform
+# Цикл для запуску terraform destroy в кожній папці проекту
 for dir in aws pve; do
   echo
   echo "Видалення на $dir..."

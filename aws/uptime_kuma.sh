@@ -29,6 +29,6 @@ echo
 echo "Запуск контейнера Uptime Kuma..."
 docker run -d --restart=on-failure -p 3001:3001 --name uptime-kuma brekhoffd/uptime-kuma
 
-# Вивід кінцевої інформації
+# Вивід кінцевого повідомлення
 echo
 echo "Встановлення програми моніторингу Uptime Kuma завершено!"

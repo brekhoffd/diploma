@@ -16,9 +16,9 @@ VM_STORAGE="raid-zfs"
 
 # Початкове повідомлення
 echo
-echo "Створення шаблону віртуальної машини!"
+echo "Створення шаблону віртуальної машини на PVE!"
 
-# Завантаження обраної версії Cloud-Image
+# Завантаження Cloud-Image
 echo
 echo "Завантаження Cloud-Image..."
 wget https://cloud-images.ubuntu.com/noble/current/${CLOUD_IMAGE}
@@ -42,15 +42,15 @@ echo
 echo "Імпорт диска..."
 qm importdisk ${VM_ID} ${CLOUD_IMAGE} ${VM_STORAGE}
 
-# Очікування створення ZVOL-пристрою після імпорту диска
+# Очікування створення ZVOL після імпорту диска
 echo
-echo "Створення ZVOL-пристрою після імпорту диска..."
+echo "Створення ZVOL після імпорту диска..."
 sleep 10
 
-# Перевірка наявності ZVOL-пристрою
+# Перевірка наявності ZVOL
 ZVOL_PATH="/dev/zvol/${VM_STORAGE}/vm-${VM_ID}-disk-0"
 echo
-echo "Перевірка наявності ZVOL-пристрою: ${ZVOL_PATH}..."
+echo "Перевірка наявності ZVOL: ${ZVOL_PATH}..."
 for i in {1..10}; do
   if [ -e "$ZVOL_PATH" ]; then
     echo "ZVOL знайдено."
@@ -97,4 +97,4 @@ rm ./${CLOUD_IMAGE}
 
 # Вивід кінцевої інформації
 echo
-echo "Створення шаблону віртуальної машини завершено!"
+echo "Створення шаблону віртуальної машини на PVE завершено!"

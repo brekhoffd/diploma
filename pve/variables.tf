@@ -27,7 +27,7 @@ variable "proxmox_tls_insecure" {
 variable "vm_name" {
   description = "Name Of The Virtual Machine"
   type        = string
-  default     = "VM-TEST"
+  default     = "COSMERIA"
 }
 
 variable "target_node" {
@@ -70,7 +70,7 @@ variable "vm_cpu_type" {
 variable "vm_memory" {
   description = "RAM Memory In MB"
   type        = number
-  default     = 4096
+  default     = 8192
 }
 
 variable "vm_balloon" {
@@ -108,7 +108,7 @@ variable "disk_storage" {
 variable "disk_size" {
   description = "Disk Size"
   type        = string
-  default     = "32G"
+  default     = "64G"
 }
 
 variable "cloudinit_slot" {

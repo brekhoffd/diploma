@@ -6,12 +6,12 @@ trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 
 # Вивід початкового повідомлення
 echo
-echo "Запуск дипломного проекту!"
+echo "РОЗГОРТАННЯ ДИПЛОМНОГО ПРОЕКТУ!"
 
 # Цикл для запуску deploy.sh в кожній папці проекту
 for dir in aws pve; do
   echo
-  echo "Запускаю deploy.sh для $dir..."
+  echo "Розгортання на $dir..."
   if [ -x "$dir/deploy.sh" ]; then
     (cd "$dir" && ./deploy.sh)
   else
@@ -21,4 +21,4 @@ for dir in aws pve; do
   fi
 done
 
-echo "Дипломний проект розгорнутий успішно!"
+echo "ДИПЛОМНИЙ ПРОЕКТ РОЗГОРНУТИЙ УСПІШНО!"

@@ -32,3 +32,4 @@ docker run -d --restart=on-failure -p 3001:3001 --name uptime-kuma brekhoffd/upt
 # Вивід кінцевого повідомлення
 echo
 echo "Встановлення програми моніторингу Uptime Kuma завершено!"
+echo

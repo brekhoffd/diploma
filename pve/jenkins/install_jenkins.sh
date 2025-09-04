@@ -218,3 +218,4 @@ echo
 echo "Встановлення Jenkins та Docker завершено!"
 echo "Jenkins доступний на $JENKINS_URL"
 echo "Дані для входу: $ADMIN_USERNAME / $ADMIN_PASSWORD"
+echo

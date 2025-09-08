@@ -4,6 +4,14 @@ set -euo pipefail
 # Обробка помилок
 trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 
+# Перевірка прав на виконання
+if [ "$(id -u)" -ne 0 ]; then
+  echo
+  echo "ВІДМОВА! Недостатньо прав!"
+  echo
+  exit 1
+fi
+
 # Динамічне визначення IP-адреси (використовуємо першу не-loopback IP)
 LOCAL_IP=$(hostname -I | awk '{print $1}')
 if [ -z "$LOCAL_IP" ]; then

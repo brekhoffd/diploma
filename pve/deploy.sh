@@ -8,7 +8,7 @@ trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 REMOTE_USER_SER="root"
 REMOTE_HOST_SER="192.168.88.1"
 LOCAL_SCRIPT_PATH_SER="./ubuntu_template.sh"
-REMOTE_SCRIPT_PATH_SER="/tmp/ubuntu_template.sh
+REMOTE_SCRIPT_PATH_SER="/tmp/ubuntu_template.sh"
 
 # Налаштування підключення до віртуальної машини проекту
 REMOTE_USER_VM="user"

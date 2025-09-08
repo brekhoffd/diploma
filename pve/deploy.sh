@@ -4,6 +4,14 @@ set -euo pipefail
 # Обробка помилок
 trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 
+# Перевірка прав на виконання
+if [ "$(id -u)" -ne 0 ]; then
+  echo
+  echo "ВІДМОВА! Недостатньо прав!"
+  echo
+  exit 1
+fi
+
 # Налаштування підключення до сервера PVE
 REMOTE_USER_SER="root"
 REMOTE_HOST_SER="192.168.88.1"

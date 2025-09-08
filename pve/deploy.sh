@@ -5,12 +5,16 @@ set -euo pipefail
 trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 
 # Налаштування підключення
-REMOTE_USER="root"
-REMOTE_HOST="192.168.88.1"
+REMOTE_USER_SER="root"
+REMOTE_HOST_SER="192.168.88.1"
+REMOTE_USER_VM="user"
+REMOTE_HOST_VM="192.168.88.200"
 
 # Визначення шляхів
-LOCAL_SCRIPT="./ubuntu_template.sh"
-REMOTE_SCRIPT_PATH="/tmp/ubuntu_template.sh"
+LOCAL_SCRIPT_PATH_SER="./ubuntu_template.sh"
+REMOTE_SCRIPT_PATH_SER="/tmp/ubuntu_template.sh"
+LOCAL_SCRIPT_PATH_VM="./jenkins/install_jenkins.sh"
+REMOTE_SCRIPT_PATH_VM="/tmp/install_jenkins.sh"
 
 # Вивід початкового повідомлення
 echo
@@ -19,12 +23,12 @@ echo "Створення інфраструктури та розгортанн�
 # Копіювання скрипта на сервер
 echo
 echo "Копіювання скрипта на сервер..."
-scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_SCRIPT_PATH"
+scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_PATH_SER" "$REMOTE_USER_SER@$REMOTE_HOST_SER:$REMOTE_SCRIPT_PATH_SER"
 
 # Підключення та запуск скрипта
 echo
 echo "Підключення та запуск скрипта..."
-ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER@$REMOTE_HOST" "chmod +x $REMOTE_SCRIPT_PATH && $REMOTE_SCRIPT_PATH && rm -f $REMOTE_SCRIPT_PATH && exit"
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_SER@$REMOTE_HOST_SER" "chmod +x $REMOTE_SCRIPT_PATH_SER && $REMOTE_SCRIPT_PATH_SER && rm -f $REMOTE_SCRIPT_PATH_SER && exit"
 
 # Таймаут для завершення роботи скрипта
 echo
@@ -88,6 +92,21 @@ echo
 echo "Створення інфраструктури..."
 terraform apply --auto-approve
 #######################################################################################################################
+
+# Таймаут для запуску та оновлення віртуальної машини
+echo
+echo "Запуск та оновлення віртуальної машини..."
+sleep 60
+
+# Копіювання скрипта на віртуальну машину
+echo
+echo "Копіювання скрипта на віртуальну машину..."
+scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_PATH_VM" "$REMOTE_USER_VM@$REMOTE_HOST_VM:$REMOTE_SCRIPT_PATH_VM"
+
+# Підключення та запуск скрипта
+echo
+echo "Підключення та запуск скрипта..."
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "chmod +x $REMOTE_SCRIPT_PATH_VM && $REMOTE_SCRIPT_PATH_VM && rm -f $REMOTE_SCRIPT_PATH_VM && exit"
 
 # Вивід кінцевого повідомлення
 echo

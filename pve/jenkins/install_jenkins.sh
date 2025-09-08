@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Перевірка прав на виконання
+# Перевірка прав суперкористувача
 if [ "$(id -u)" -ne 0 ]; then
-  echo
-  echo "ВІДМОВА! Недостатньо прав!"
-  echo
+  echo -e "\nПомилка: Скрипт потребує прав суперкористувача (root).\n" >&2
   exit 1
 fi
 
 # Обробка помилок
-trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
+trap 'echo -e "\nПомилка на рядку $LINENO: $BASH_COMMAND\n" >&2; exit 1' ERR
 
 # Динамічне визначення IP-адреси (використовуємо першу не-loopback IP)
 LOCAL_IP=$(hostname -I | awk '{print $1}')

@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Обробка помилок
-trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
-
-# Перевірка прав на виконання
+## Перевірка прав на виконання
 if [ "$(id -u)" -ne 0 ]; then
   echo
   echo "ВІДМОВА! Недостатньо прав!"
   echo
   exit 1
 fi
+
+# Обробка помилок
+trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 
 # Налаштування підключення до сервера PVE
 REMOTE_USER_SER="root"

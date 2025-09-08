@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Обробка помилок
-trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
-
 # Перевірка прав на виконання
 if [ "$(id -u)" -ne 0 ]; then
   echo
@@ -11,6 +8,9 @@ if [ "$(id -u)" -ne 0 ]; then
   echo
   exit 1
 fi
+
+# Обробка помилок
+trap 'echo "Сталася помилка на рядку $LINENO"; exit 1' ERR
 
 # Динамічне визначення IP-адреси (використовуємо першу не-loopback IP)
 LOCAL_IP=$(hostname -I | awk '{print $1}')

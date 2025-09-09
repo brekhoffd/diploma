@@ -10,15 +10,13 @@ fi
 # Обробка помилок
 trap 'echo -e "\nПомилка на рядку $LINENO: $BASH_COMMAND\n" >&2; exit 1' ERR
 
-# Динамічне визначення IP-адреси (використовуємо першу не-loopback IP)
+# Ініціалізація змінних з динамічним визначенням IP-адреси
 LOCAL_IP=$(hostname -I | awk '{print $1}')
 if [ -z "$LOCAL_IP" ]; then
     echo "Помилка: Не вдалося визначити локальну IP-адресу."
     exit 1
 fi
 LOCAL_PORT="8080"
-
-# Налаштування користувача Jenkins
 JENKINS_URL="http://$LOCAL_IP:$LOCAL_PORT"
 ADMIN_FULLNAME="Denys Brekhov"
 ADMIN_USERNAME="denys"

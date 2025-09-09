@@ -173,7 +173,7 @@ curl -X POST -u "$ADMIN_USERNAME:$ADMIN_PASSWORD" $JENKINS_URL/pluginManager/ins
     --data "$XML_PAYLOAD"
 check_status "Встановлення плагінів"
 
-# Таймаут для встановлення плагінів
+# Таймаут для запуску плагінів
 echo
 echo "Запуск плагінів..."
 sleep 300  # Асинхронне встановлення — додайте більше, якщо потрібно (сек.)

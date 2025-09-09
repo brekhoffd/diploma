@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    stages {
+        stage('Клонування репозиторію') {
+            steps {
+                git url: 'https://github.com/komarbv211/Diploma.git', branch: 'main'
+            }
+        }
+        stage('Збірка та запуск') {
+            steps {
+                sh 'docker-compose pull'
+                sh 'docker-compose up -d'
+            }
+        }
+    }
+}

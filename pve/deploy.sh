@@ -112,7 +112,7 @@ scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 # Підключення та запуск скрипта
 echo
 echo "Підключення та запуск скрипта..."
-ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "chmod +x $REMOTE_SCRIPT_PATH_VM && $REMOTE_SCRIPT_PATH_VM && rm -f $REMOTE_SCRIPT_PATH_VM && exit"
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chmod +x $REMOTE_SCRIPT_PATH_VM && sudo $REMOTE_SCRIPT_PATH_VM && rm -f $REMOTE_SCRIPT_PATH_VM && exit"
 
 # Вивід кінцевого повідомлення
 echo

@@ -10,21 +10,25 @@ fi
 # Обробка помилок
 trap 'echo -e "\nПомилка на рядку $LINENO: $BASH_COMMAND\n" >&2; exit 1' ERR
 
-# Налаштування підключення до сервера PVE
+# Змінні для підключення до сервера PVE
 REMOTE_USER_SERVER="root"
 REMOTE_HOST_SERVER="192.168.88.1"
 LOCAL_SCRIPT_UBUNTU="./ubuntu_template.sh"
 REMOTE_SCRIPT_UBUNTU="/tmp/ubuntu_template.sh"
 
-# Налаштування підключення до віртуальної машини
+# Змінні для підключення до віртуальної машини
 REMOTE_USER_VM="user"
 REMOTE_HOST_VM="192.168.88.200"
 LOCAL_SCRIPT_JENKINS="./jenkins/install_jenkins.sh"
 REMOTE_SCRIPT_JENKINS="/tmp/install_jenkins.sh"
+LOCAL_SCRIPT_COSMERIA="./jenkins/setup_cosmeria.sh"
+REMOTE_SCRIPT_COSMERIA="/tmp/setup_cosmeria.sh"
 
 # Вивід початкового повідомлення
 echo
 echo "Створення інфраструктури та розгортання сервісів на PVE!"
+
+########## СТВОРЕННЯ ШАБЛОНУ ВІРТУАЛЬНОЇ МАШИНИ ##########
 
 # Копіювання скрипта на сервер
 echo
@@ -40,6 +44,8 @@ ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 echo
 echo "Завершення роботи скрипта..."
 sleep 10
+
+########## СТВОРЕННЯ ВІРТУАЛЬНОЇ МАШИНИ ##########
 
 # Перевірка наявності Terraform
 echo
@@ -104,6 +110,8 @@ echo
 echo "Запуск та оновлення віртуальної машини..."
 sleep 120
 
+########## РОЗГОРТАННЯ JENKINS ##########
+
 # Копіювання скрипта на віртуальну машину
 echo
 echo "Копіювання скрипта на віртуальну машину..."
@@ -113,6 +121,18 @@ scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 echo
 echo "Підключення та запуск скрипта..."
 ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chmod +x $REMOTE_SCRIPT_JENKINS && sudo $REMOTE_SCRIPT_JENKINS && rm -f $REMOTE_SCRIPT_JENKINS && exit"
+
+########## ДОДАВАННЯ PIPELINE COSMERIA У JENKINS ##########
+
+# Копіювання скрипта на віртуальну машину
+echo
+echo "Копіювання скрипта на віртуальну машину..."
+scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_COSMERIA" "$REMOTE_USER_VM@$REMOTE_HOST_VM:$REMOTE_SCRIPT_COSMERIA"
+
+# Підключення та запуск скрипта
+echo
+echo "Підключення та запуск скрипта..."
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chmod +x $REMOTE_SCRIPT_COSMERIA && sudo $REMOTE_SCRIPT_COSMERIA && rm -f $REMOTE_SCRIPT_COSMERIA && exit"
 
 # Вивід кінцевого повідомлення
 echo

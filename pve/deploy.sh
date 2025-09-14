@@ -133,7 +133,7 @@ ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 # Копіювання скрипта groovy
 echo
 echo "Копіювання скрипта groovy..."
-scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "LOCAL_SCRIPT_GROOVY" "REMOTE_USER_VM@REMOTE_HOST_VM:REMOTE_SCRIPT_GROOVY"
+scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_GROOVY" "$REMOTE_USER_VM@$REMOTE_HOST_VM:$REMOTE_SCRIPT_GROOVY"
 
 # Встановлення прав та перезапуск Jenkins після копіювання скрипта
 echo

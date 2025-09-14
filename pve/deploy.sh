@@ -23,7 +23,7 @@ LOCAL_SCRIPT_JENKINS="./jenkins/install_jenkins.sh"
 REMOTE_SCRIPT_JENKINS="/tmp/install_jenkins.sh"
 LOCAL_SCRIPT_GROOVY="./jenkins/groovy/01-COSMERIA.groovy"
 REMOTE_PATH_GROOVY="/var/lib/jenkins/init.groovy.d"
-REMOTE_SCRIPT_GROOVY="$REMOTE_PATH_GROOVY/$REMOTE_SCRIPT_GROOVY"
+REMOTE_SCRIPT_GROOVY="$REMOTE_PATH_GROOVY/01-COSMERIA.groovy"
 
 # Вивід початкового повідомлення
 echo

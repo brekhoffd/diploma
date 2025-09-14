@@ -21,8 +21,9 @@ REMOTE_USER_VM="user"
 REMOTE_HOST_VM="192.168.88.200"
 LOCAL_SCRIPT_JENKINS="./jenkins/install_jenkins.sh"
 REMOTE_SCRIPT_JENKINS="/tmp/install_jenkins.sh"
-LOCAL_SCRIPT_COSMERIA="./jenkins/setup_cosmeria.sh"
-REMOTE_SCRIPT_COSMERIA="/tmp/setup_cosmeria.sh"
+LOCAL_SCRIPT_GROOVY="./jenkins/groovy/01-COSMERIA.groovy"
+REMOTE_PATH_GROOVY="/var/lib/jenkins/init.groovy.d"
+REMOTE_SCRIPT_GROOVY="$REMOTE_PATH_GROOVY/$REMOTE_SCRIPT_GROOVY"
 
 # Вивід початкового повідомлення
 echo
@@ -124,15 +125,20 @@ ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 
 ########## ДОДАВАННЯ PIPELINE COSMERIA У JENKINS ##########
 
-# Копіювання скрипта на віртуальну машину
+# Створення директорії для скрипта groovy
 echo
-echo "Копіювання скрипта на віртуальну машину..."
-scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_COSMERIA" "$REMOTE_USER_VM@$REMOTE_HOST_VM:$REMOTE_SCRIPT_COSMERIA"
+echo "Створення директорії для скрипта groovy..."
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "sudo mkdir $REMOTE_PATH_GROOVY"
 
-# Підключення та запуск скрипта
+# Копіювання скрипта groovy
 echo
-echo "Підключення та запуск скрипта..."
-ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chmod +x $REMOTE_SCRIPT_COSMERIA && sudo $REMOTE_SCRIPT_COSMERIA && rm -f $REMOTE_SCRIPT_COSMERIA && exit"
+echo "Копіювання скрипта groovy..."
+scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "LOCAL_SCRIPT_GROOVY" "REMOTE_USER_VM@REMOTE_HOST_VM:REMOTE_SCRIPT_GROOVY"
+
+# Встановлення прав та перезапуск Jenkins після копіювання скрипта
+echo
+echo "Встановлення прав та перезапуск Jenkins після копіювання скрипта..."
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "sudo chown jenkins:jenkins $REMOTE_SCRIPT_GROOVY && sudo systemctl restart jenkins"
 
 # Вивід кінцевого повідомлення
 echo

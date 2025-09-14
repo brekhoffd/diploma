@@ -22,8 +22,8 @@ REMOTE_HOST_VM="192.168.88.200"
 LOCAL_SCRIPT_JENKINS="./jenkins/install_jenkins.sh"
 REMOTE_SCRIPT_JENKINS="/tmp/install_jenkins.sh"
 LOCAL_SCRIPT_GROOVY="./jenkins/groovy/01-COSMERIA.groovy"
-REMOTE_PATH_GROOVY="/var/lib/jenkins/init.groovy.d"
-REMOTE_SCRIPT_GROOVY="$REMOTE_PATH_GROOVY/01-COSMERIA.groovy"
+REMOTE_SCRIPT_GROOVY="/tmp/01-COSMERIA.groovy"
+INIT_PATH_GROOVY="/var/lib/jenkins/init.groovy.d/"
 
 # Вивід початкового повідомлення
 echo
@@ -125,20 +125,25 @@ ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 
 ########## ДОДАВАННЯ PIPELINE COSMERIA У JENKINS ##########
 
-# Створення директорії для скрипта groovy
+# Створення директорії groovy
 echo
-echo "Створення директорії для скрипта groovy..."
-ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo mkdir $REMOTE_PATH_GROOVY"
+echo "Створення директорії groovy..."
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo mkdir $INIT_PATH_GROOVY"
 
 # Копіювання скрипта groovy
 echo
 echo "Копіювання скрипта groovy..."
 scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_GROOVY" "$REMOTE_USER_VM@$REMOTE_HOST_VM:$REMOTE_SCRIPT_GROOVY"
 
-# Встановлення прав та перезапуск Jenkins після копіювання скрипта
+# Переміщення скрипта groovy
 echo
-echo "Встановлення прав та перезапуск Jenkins після копіювання скрипта..."
-ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chown jenkins:jenkins $REMOTE_SCRIPT_GROOVY && sudo systemctl restart jenkins"
+echo "Переміщення скрипта groovy..."
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo mv $REMOTE_SCRIPT_GROOVY $INIT_PATH_GROOVY"
+
+# Встановлення прав та перезавантаження
+echo
+echo "Встановлення прав та перезавантаження..."
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chown -R jenkins:jenkins $INIT_PATH_GROOVY && sudo systemctl reboot"
 
 # Вивід кінцевого повідомлення
 echo

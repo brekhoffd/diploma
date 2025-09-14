@@ -128,7 +128,7 @@ ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 # Створення директорії для скрипта groovy
 echo
 echo "Створення директорії для скрипта groovy..."
-ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "sudo mkdir $REMOTE_PATH_GROOVY"
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo mkdir $REMOTE_PATH_GROOVY"
 
 # Копіювання скрипта groovy
 echo
@@ -138,7 +138,7 @@ scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 # Встановлення прав та перезапуск Jenkins після копіювання скрипта
 echo
 echo "Встановлення прав та перезапуск Jenkins після копіювання скрипта..."
-ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "sudo chown jenkins:jenkins $REMOTE_SCRIPT_GROOVY && sudo systemctl restart jenkins"
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chown jenkins:jenkins $REMOTE_SCRIPT_GROOVY && sudo systemctl restart jenkins"
 
 # Вивід кінцевого повідомлення
 echo

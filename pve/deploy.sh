@@ -11,16 +11,16 @@ fi
 trap 'echo -e "\nПомилка на рядку $LINENO: $BASH_COMMAND\n" >&2; exit 1' ERR
 
 # Налаштування підключення до сервера PVE
-REMOTE_USER_SER="root"
-REMOTE_HOST_SER="192.168.88.1"
-LOCAL_SCRIPT_PATH_SER="./ubuntu_template.sh"
-REMOTE_SCRIPT_PATH_SER="/tmp/ubuntu_template.sh"
+REMOTE_USER_SERVER="root"
+REMOTE_HOST_SERVER="192.168.88.1"
+LOCAL_SCRIPT_UBUNTU="./ubuntu_template.sh"
+REMOTE_SCRIPT_UBUNTU="/tmp/ubuntu_template.sh"
 
-# Налаштування підключення до віртуальної машини проекту
+# Налаштування підключення до віртуальної машини
 REMOTE_USER_VM="user"
 REMOTE_HOST_VM="192.168.88.200"
-LOCAL_SCRIPT_PATH_VM="./jenkins/install_jenkins.sh"
-REMOTE_SCRIPT_PATH_VM="/tmp/install_jenkins.sh"
+LOCAL_SCRIPT_JENKINS="./jenkins/install_jenkins.sh"
+REMOTE_SCRIPT_JENKINS="/tmp/install_jenkins.sh"
 
 # Вивід початкового повідомлення
 echo
@@ -29,12 +29,12 @@ echo "Створення інфраструктури та розгортанн�
 # Копіювання скрипта на сервер
 echo
 echo "Копіювання скрипта на сервер..."
-scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_PATH_SER" "$REMOTE_USER_SER@$REMOTE_HOST_SER:$REMOTE_SCRIPT_PATH_SER"
+scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_UBUNTU" "$REMOTE_USER_SERVER@$REMOTE_HOST_SERVER:$REMOTE_SCRIPT_UBUNTU"
 
 # Підключення та запуск скрипта
 echo
 echo "Підключення та запуск скрипта..."
-ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_SER@$REMOTE_HOST_SER" "chmod +x $REMOTE_SCRIPT_PATH_SER && $REMOTE_SCRIPT_PATH_SER && rm -f $REMOTE_SCRIPT_PATH_SER && exit"
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_SERVER@$REMOTE_HOST_SERVER" "chmod +x $REMOTE_SCRIPT_UBUNTU && $REMOTE_SCRIPT_UBUNTU && rm -f $REMOTE_SCRIPT_UBUNTU && exit"
 
 # Таймаут для завершення роботи скрипта
 echo
@@ -107,12 +107,12 @@ sleep 120
 # Копіювання скрипта на віртуальну машину
 echo
 echo "Копіювання скрипта на віртуальну машину..."
-scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_PATH_VM" "$REMOTE_USER_VM@$REMOTE_HOST_VM:$REMOTE_SCRIPT_PATH_VM"
+scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_JENKINS" "$REMOTE_USER_VM@$REMOTE_HOST_VM:$REMOTE_SCRIPT_JENKINS"
 
 # Підключення та запуск скрипта
 echo
 echo "Підключення та запуск скрипта..."
-ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chmod +x $REMOTE_SCRIPT_PATH_VM && sudo $REMOTE_SCRIPT_PATH_VM && rm -f $REMOTE_SCRIPT_PATH_VM && exit"
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chmod +x $REMOTE_SCRIPT_JENKINS && sudo $REMOTE_SCRIPT_JENKINS && rm -f $REMOTE_SCRIPT_JENKINS && exit"
 
 # Вивід кінцевого повідомлення
 echo

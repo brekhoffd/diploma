@@ -28,7 +28,7 @@ if (job == null) {
     p.setDefinition(cpsScmDef)
     p.save()
 
-    // 🔹 одразу запускаємо перший білд
+    // Запускаємо перший білд
     println(">>> Triggering first build for ${jobName}")
     p.scheduleBuild2(0)
 } else {

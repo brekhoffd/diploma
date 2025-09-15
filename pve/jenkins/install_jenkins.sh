@@ -91,9 +91,9 @@ sudo usermod -aG docker jenkins
 sudo usermod -aG adm jenkins
 check_status "Додавання Jenkins до груп"
 
-# Створення папки MSSQL без помилки, якщо така папка вже існує
+# Створення директорії для MSSQL без помилки, якщо така директорія вже існує
 echo
-echo "Створення папки /opt/mssql..."
+echo "Створення директорії для MSSQL..."
 sudo mkdir /opt/mssql 2>/dev/null || true
 sudo chmod 777 /opt/mssql
 

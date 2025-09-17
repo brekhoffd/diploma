@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Клонування репозиторію') {
             steps {
-                git url: 'https://github.com/komarbv211/Diploma.git', branch: 'main'
+                git url: 'https://github.com/komarbv211/Diploma.git', branch: 'denys'
             }
         }
         stage('Збірка та запуск') {

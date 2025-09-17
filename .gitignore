@@ -6,6 +6,7 @@ tfplan
 *.tfstate.*
 *.tfstate
 .terraform.lock.hcl
+volume/
 
 # AWS SSH keys
 *.pem

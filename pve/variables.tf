@@ -27,7 +27,7 @@ variable "proxmox_tls_insecure" {
 variable "vm_name" {
   description = "Name Of The Virtual Machine"
   type        = string
-  default     = "COSMERIA"
+  default     = "cosmeria-site"
 }
 
 variable "target_node" {

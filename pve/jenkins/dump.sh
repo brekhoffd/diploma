@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Ініціалізація змінних
-DUMP_FILE="./dump.sql"
+DUMP_FILE="/home/user/dump.sql"
 CONTAINER_NAME="pg-container"
 DB_NAME="cosmeria"
 DB_USER="krot"

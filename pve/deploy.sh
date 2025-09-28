@@ -111,6 +111,11 @@ echo
 echo "Запуск та оновлення віртуальної машини..."
 sleep 120
 
+# Копіювання volumes для монтування у Docker контейнер
+echo
+echo "Копіювання volumes..."
+scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r "./jenkins/volumes" "$REMOTE_USER_VM@$REMOTE_HOST_VM:/home/user/"
+
 ########## РОЗГОРТАННЯ JENKINS ##########
 
 # Копіювання скрипта на віртуальну машину

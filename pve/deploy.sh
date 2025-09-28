@@ -24,6 +24,10 @@ REMOTE_SCRIPT_JENKINS="/tmp/install_jenkins.sh"
 LOCAL_SCRIPT_GROOVY="./jenkins/groovy/01-COSMERIA.groovy"
 REMOTE_SCRIPT_GROOVY="/tmp/01-COSMERIA.groovy"
 INIT_PATH_GROOVY="/var/lib/jenkins/init.groovy.d/"
+LOCAL_SCRIPT_DUMP="./jenkins/dump.sh"
+REMOTE_SCRIPT_DUMP="/tmp/dump.sh"
+LOCAL_DUMP_SQL="./jenkins/dump.sql"
+REMOTE_DUMP_SQL="/tmp/dump.sql"
 
 # Вивід початкового повідомлення
 echo
@@ -149,6 +153,28 @@ ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 echo
 echo "Встановлення прав та перезавантаження..."
 ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chown -R jenkins:jenkins $INIT_PATH_GROOVY && sudo systemctl reboot"
+
+# Таймаут для розгортання Docker контейнерів
+echo
+echo "Розгортання Docker контейнерів..."
+sleep 300
+
+########## ВІДНОВЛЕННЯ БАЗИ ДАНИХ ##########
+
+# Копіювання дампа на віртуальну машину
+echo
+echo "Копіювання дампа на віртуальну машину..."
+scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_DUMP_SQL" "$REMOTE_USER_VM@$REMOTE_HOST_VM:$REMOTE_DUMP_SQL"
+
+# Копіювання скрипта на віртуальну машину
+echo
+echo "Копіювання скрипта на віртуальну машину..."
+scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$LOCAL_SCRIPT_DUMP" "$REMOTE_USER_VM@$REMOTE_HOST_VM:$REMOTE_SCRIPT_DUMP"
+
+# Підключення та запуск скрипта
+echo
+echo "Підключення та запуск скрипта..."
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chmod +x $REMOTE_SCRIPT_DUMP && sudo $REMOTE_SCRIPT_DUMP && rm -f $REMOTE_SCRIPT_DUMP && rm -f $REMOTE_DUMP_SQL && exit"
 
 # Вивід кінцевого повідомлення
 echo

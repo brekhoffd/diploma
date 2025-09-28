@@ -25,9 +25,9 @@ LOCAL_SCRIPT_GROOVY="./jenkins/groovy/01-COSMERIA.groovy"
 REMOTE_SCRIPT_GROOVY="/tmp/01-COSMERIA.groovy"
 INIT_PATH_GROOVY="/var/lib/jenkins/init.groovy.d/"
 LOCAL_SCRIPT_DUMP="./jenkins/dump.sh"
-REMOTE_SCRIPT_DUMP="/tmp/dump.sh"
+REMOTE_SCRIPT_DUMP="/home/user/dump.sh"
 LOCAL_DUMP_SQL="./jenkins/dump.sql"
-REMOTE_DUMP_SQL="/tmp/dump.sql"
+REMOTE_DUMP_SQL="/home/user/dump.sql"
 
 # Вивід початкового повідомлення
 echo
@@ -157,7 +157,7 @@ ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 # Таймаут для розгортання Docker контейнерів
 echo
 echo "Розгортання Docker контейнерів..."
-sleep 300
+sleep 120
 
 ########## ВІДНОВЛЕННЯ БАЗИ ДАНИХ ##########
 
@@ -174,7 +174,7 @@ scp -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnown
 # Підключення та запуск скрипта
 echo
 echo "Підключення та запуск скрипта..."
-ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chmod +x $REMOTE_SCRIPT_DUMP && sudo $REMOTE_SCRIPT_DUMP && rm -f $REMOTE_SCRIPT_DUMP && rm -f $REMOTE_DUMP_SQL && exit"
+ssh -i /home/$SUDO_USER/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$REMOTE_USER_VM@$REMOTE_HOST_VM" "sudo chmod +x $REMOTE_SCRIPT_DUMP && sudo $REMOTE_SCRIPT_DUMP && exit"
 
 # Вивід кінцевого повідомлення
 echo

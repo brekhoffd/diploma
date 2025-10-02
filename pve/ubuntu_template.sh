@@ -14,11 +14,11 @@ trap 'echo -e "\nПомилка на рядку $LINENO: $BASH_COMMAND\n" >&2; e
 CLOUD_IMAGE="noble-server-cloudimg-amd64.img"
 
 # Налаштування шаблону віртуальної машини
-VM_ID="1000"
-VM_NAME="ubuntu"
-VM_MEM="1024"
-VM_CORES="1"
-VM_STORAGE="raid-zfs"
+VM_ID="<your_vm_id>"
+VM_NAME="<your_vm_name>"
+VM_MEM="<your_vm_memory>"
+VM_CORES="<you_vm_cores>"
+VM_STORAGE="<your_vm_storage>"
 
 # Початкове повідомлення
 echo

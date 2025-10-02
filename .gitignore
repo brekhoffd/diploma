@@ -2,13 +2,9 @@
 *.tfplan
 *.tfstate
 *.tfstate.*
-*.tfvars
 .terraform/
 .terraform.lock.hcl
 tfplan
 
 # AWS SSH keys
 *.pem
-
-# Other folders
-volumes/

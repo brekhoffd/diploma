@@ -21,13 +21,13 @@ variable "aws_secret_key" {
 variable "allowed_ssh_cidr" {
   description = "CIDR block allowed to SSH"
   type        = string
-  default     = "109.87.215.217/32"
+  default     = "<your_white_ip>/32"
 }
 
 variable "allowed_kuma_cidr" {
   description = "CIDR block allowed to access Uptime Kuma"
   type        = string
-  default     = "109.87.215.217/32"
+  default     = "<your_white_ip>/32"
 }
 
 # Instance
@@ -46,7 +46,7 @@ variable "instance_type" {
 variable "aws_key_name" {
   description = "EC2 SSH Key Name"
   type        = string
-  default     = "Stockholm"
+  default     = "<your_aws_key_name>"
   sensitive   = true
 }
 

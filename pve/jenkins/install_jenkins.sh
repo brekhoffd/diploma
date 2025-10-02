@@ -18,10 +18,10 @@ if [ -z "$LOCAL_IP" ]; then
 fi
 LOCAL_PORT="8080"
 JENKINS_URL="http://$LOCAL_IP:$LOCAL_PORT"
-ADMIN_FULLNAME="Denys Brekhov"
-ADMIN_USERNAME="denys"
-ADMIN_PASSWORD="diploma"
-ADMIN_EMAIL="denys.brekhov@example.com"
+ADMIN_FULLNAME="<your_admin_fullname>"
+ADMIN_USERNAME="<your_admin_username>"
+ADMIN_PASSWORD="<your_admin_password>"
+ADMIN_EMAIL="<your_admin_email>"
 
 # Функція для перевірки команди
 check_status() {

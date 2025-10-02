@@ -11,14 +11,14 @@ fi
 trap 'echo -e "\nПомилка на рядку $LINENO: $BASH_COMMAND\n" >&2; exit 1' ERR
 
 # Змінні для підключення до сервера PVE
-REMOTE_USER_SERVER="root"
-REMOTE_HOST_SERVER="192.168.88.1"
+REMOTE_USER_SERVER="<your_remote_user_server>"
+REMOTE_HOST_SERVER="<your_remote_host_server>"
 LOCAL_SCRIPT_UBUNTU="./ubuntu_template.sh"
 REMOTE_SCRIPT_UBUNTU="/tmp/ubuntu_template.sh"
 
 # Змінні для підключення до віртуальної машини
-REMOTE_USER_VM="user"
-REMOTE_HOST_VM="192.168.88.200"
+REMOTE_USER_VM="<your_remote_user_vm>"
+REMOTE_HOST_VM="<your_remote_host_vm>"
 LOCAL_SCRIPT_JENKINS="./jenkins/install_jenkins.sh"
 REMOTE_SCRIPT_JENKINS="/tmp/install_jenkins.sh"
 LOCAL_SCRIPT_GROOVY="./jenkins/groovy/01-COSMERIA.groovy"
